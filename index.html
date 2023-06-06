@@ -9,16 +9,24 @@
 	<link rel="stylesheet" href="styles.css" />
 </head>
 <script src="logic.js"></script>
+<script src="trigger-apis.js"></script>
 <body>
 	
 	<header>
 		<h1>Todo App</h1>
 		<form id="new-task-form">
+            <input 
+				type="text" 
+				name="new-task-title" 
+				id="new-task-title" 
+				placeholder="Title Of Task" />
+     
+
 			<input 
 				type="text" 
 				name="new-task-input" 
 				id="new-task-input" 
-				placeholder="What do you have planned?" />
+				placeholder="Description Of Task" />
 			<input 
 				type="submit"
 				id="new-task-submit" 
