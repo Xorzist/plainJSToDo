@@ -1,49 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>TC To Do List</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TC To Do List</title>
 
-	<link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<script src="logic.js"></script>
-<script src="trigger-apis.js"></script>
+
 <body>
-	
-	<header>
-		<h1>Todo App</h1>
-		<form id="new-task-form">
-            <input 
-				type="text" 
-				name="new-task-title" 
-				id="new-task-title" 
-				placeholder="Title Of Task" />
-     
 
-			<input 
-				type="text" 
-				name="new-task-input" 
-				id="new-task-input" 
-				placeholder="Description Of Task" />
-			<input 
-				type="submit"
-				id="new-task-submit" 
-				value="Add task" />
-		</form>
-	</header>
-	<main>
-		<section class="task-list">
-			<h2>Tasks</h2>
+  <header>
+    <h1>Todo App</h1>
+    <form id="task-form" onsubmit="event.preventDefault(); createTask();">
+      <input type="text" id="task-title" placeholder="Title" required>
+      <input type="text" id="task-description" placeholder="Description" required>
+      <button id="new-task-submit" type="submit">Add Task</button>
+    </form>
+  </header>
+  <main>
+    <section class="task-list">
+      <h2>Tasks</h2>
 
-			<div id="tasks">
+      <div id="tasks">
+        <!-- list of tasks -->
+        <ul id="task-list"></ul>
 
+      </div>
+    </section>
+  </main>
 
-			</div>
-		</section>
-	</main>
-
+  <script src="logic.js"></script>
+  <script src="trigger-apis.js"></script>
 
 </body>
+
 </html>
