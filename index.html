@@ -2,39 +2,328 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TC To Do List</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TC To Do List</title>
 
-  <link rel="stylesheet" href="styles.css" />
+	<!-- <link rel="stylesheet" href="styles.css" /> -->
 </head>
-
+<style>
+	* {
+		margin: 0;
+		box-sizing: border-box;
+		font-family: "Fira sans", sans-serif;
+	}
+	
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		color: #FFF;
+		background-color: #232032;
+	}
+	
+	header {
+		padding: 2rem 1rem;
+		max-width: 800px;
+		width: 100%;
+		margin: 0 auto;
+	}
+	
+	header h1{ 
+		font-size: 2.5rem;
+		font-weight: 300;
+		color: whitesmoke;
+		margin-bottom: 1rem;
+	}
+	
+	#task-form {
+		display: flex;;
+	}
+	
+	input, button {
+		appearance: none;
+		border: none;
+		outline: none;
+		background: none;
+	}
+	
+	#task-description {
+		flex: 2 2 0%;
+		background-color: #111827;
+		padding: 1rem;
+		border-radius: 1rem;
+		margin-right: 1rem;
+		color: #EEE;
+		font-size: 1.25rem;
+	}
+	
+	
+	
+	#task-description::placeholder {
+		color: #7b7e82;
+	}
+	#task-title {
+		flex: 2 1 0%;
+		background-color: #111827;
+		padding: 1rem;
+		border-radius: 1rem;
+		margin-right: 1rem;
+		color: #d2b4f1;
+		font-size: 1.25rem;
+	}
+	#new-task-submit {
+		color: whitesmoke;
+		font-size: 1.25rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: 0.4s;
+	}
+	
+	#new-task-submit:hover {
+		opacity: 0.8;
+	}
+	
+	#new-task-submit:active {
+		opacity: 0.6;
+	}
+	
+	main {
+		flex: 1 1 0%;
+		max-width: 800px;
+		width: 100%;
+		margin: 0 auto;
+	}
+	
+	.task-list {
+		padding: 1rem;
+	}
+	
+	.task-list h2 {
+		font-size: 1.5rem;
+		font-weight: 300;
+		color: whitesmoke;
+		margin-bottom: 1rem;
+	}
+	
+	#tasks .task {
+		display: flex;
+		justify-content: space-between;
+		background-color: #111827;
+		padding: 1rem;
+		border-radius: 1rem;
+		margin-bottom: 1rem;
+	}
+	
+	.task .content {
+		flex: 1 1 0%;
+	}
+	
+	.task .content .text {
+		color:  #EEE;
+		font-size: 1.125rem;
+		width: 100%;
+		display: block;
+		transition: 0.4s;
+	}
+	
+	.task .content .text:not(:read-only) {
+		color: #7b9aac;
+	}
+	
+	.task .actions {
+		display: flex;
+		
+	}
+	
+	.task .actions button {
+		cursor: pointer;
+		margin: 0 0.5rem;
+		font-size: 1.125rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		transition: 0.4s;
+	}
+	
+	
+	.task .actions button:hover {
+		opacity: 0.8;
+	}
+	
+	.task .actions button:active {
+		opacity: 0.6;
+	}
+	
+	.task .actions .edit {
+		background-image: linear-gradient(to right, #2c0fee,#7c6ec9);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	
+	.task .actions .completed {
+		color:#026602
+	}
+	
+	.task .actions .delete {
+		color: crimson;
+	}
+</style>
 <body>
 
-  <header>
-    <h1>Todo App</h1>
-    <form id="task-form" onsubmit="event.preventDefault(); createTask();">
-      <input type="text" id="task-title" placeholder="Title" required>
-      <input type="text" id="task-description" placeholder="Description" required>
-      <button id="new-task-submit" type="submit">Add Task</button>
-    </form>
-  </header>
-  <main>
-    <section class="task-list">
-      <h2>Tasks</h2>
+	<header>
+		<h1>Todo App</h1>
+		<form id="task-form" onsubmit="event.preventDefault(); createTask();">
+			<input type="text" id="task-title" placeholder="Title" required>
+			<input type="text" id="task-description" placeholder="Description" required>
+			<button id="new-task-submit" type="submit">Add Task</button>
+		</form>
+	</header>
+	<main>
+		<section class="task-list">
+			<h2>Tasks</h2>
 
-      <div id="tasks">
-        <!-- list of tasks -->
-        <ul id="task-list"></ul>
+			<div id="tasks">
+				<!-- list of tasks -->
+				<ul id="task-list"></ul>
 
-      </div>
-    </section>
-  </main>
+			</div>
+		</section>
+	</main>
 
-  <script src="logic.js"></script>
-  <script src="trigger-apis.js"></script>
+	<!-- <script src="logic.js"></script>
+	<script src="trigger-apis.js"></script> -->
+	<script>
+		// Initial fetch to get all tasks
+		window.onload = function () {
+			getAllTasks();
+		};
 
+		// Function to edit a task
+		function editTask(id) {
+			const newTitle = prompt('Enter the new title:');
+			const newDescription = prompt('Enter the new description:');
+
+			updateTaskById(id, newTitle, newDescription);
+		}
+
+		// Function to delete a task
+		function deleteTask(id) {
+			const confirmDelete = confirm('Are you sure you want to delete this task?');
+			if (confirmDelete) {
+				deleteTaskById(id);
+			}
+		}
+
+	</script>
+
+	<script>
+		const port = 3001;
+
+		// Function to create a new task
+		function createTask() {
+			const title = document.getElementById('task-title').value;
+			const description = document.getElementById('task-description').value;
+
+			const task = { title, description };
+
+			fetch(`http://localhost:${port}/tasks`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(task),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					console.log('New task created:', data);
+					getAllTasks();
+				})
+				.catch((error) => {
+					console.error('Error creating task:', error);
+				});
+		}
+
+		// Function to get all tasks
+		function getAllTasks() {
+			fetch(`http://localhost:${port}/tasks`)
+				.then((response) => response.json())
+				.then((data) => {
+					console.log('All tasks:', data);
+					displayTasks(data);
+				})
+				.catch((error) => {
+					console.error('Error retrieving tasks:', error);
+				});
+		}
+
+		// Function to display tasks in the HTML
+		function displayTasks(tasks) {
+			const taskList = document.getElementById('task-list');
+			taskList.innerHTML = '';
+
+			tasks.forEach((task) => {
+				const listItem = document.createElement('li');
+				listItem.innerHTML = `
+      <span>${task.title}: ${task.description}</span>
+      <button onclick="editTask(${task.id})">Edit</button>
+      <button onclick="deleteTask(${task.id})">Delete</button>
+    `;
+				taskList.appendChild(listItem);
+			});
+		}
+
+		// Function to get a specific task by ID
+		function getTaskById(id) {
+			fetch(`http://localhost:${port}/tasks/${id}`)
+				.then((response) => response.json())
+				.then((data) => {
+					console.log('Task by ID:', data);
+				})
+				.catch((error) => {
+					console.error('Error retrieving task:', error);
+				});
+		}
+
+		// Function to update a specific task by ID
+		function updateTaskById(id, title, description) {
+			const task = { title, description };
+
+			fetch(`http://localhost:${port}/tasks/${id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(task),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					console.log('Updated task:', data);
+					getAllTasks();
+				})
+				.catch((error) => {
+					console.error('Error updating task:', error);
+				});
+		}
+
+		// Function to delete a specific task by ID
+		function deleteTaskById(id) {
+			fetch(`http://localhost:${port}/tasks/${id}`, {
+				method: 'DELETE',
+			})
+				.then((response) => {
+					if (response.status === 204) {
+						console.log('Task deleted successfully');
+						getAllTasks();
+					} else {
+						console.error('Error deleting task');
+					}
+				})
+				.catch((error) => {
+					console.error('Error deleting task:', error);
+				});
+		}
+	</script>
 </body>
 
 </html>
