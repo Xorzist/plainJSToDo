@@ -26,7 +26,7 @@ header h1{
 	margin-bottom: 1rem;
 }
 
-#new-task-form {
+#task-form {
 	display: flex;;
 }
 
@@ -37,8 +37,8 @@ input, button {
 	background: none;
 }
 
-#new-task-input {
-	flex: 1 1 0%;
+#task-description {
+	flex: 2 2 0%;
 	background-color: #111827;
 	padding: 1rem;
 	border-radius: 1rem;
@@ -47,10 +47,20 @@ input, button {
 	font-size: 1.25rem;
 }
 
-#new-task-input::placeholder {
+
+
+#task-description::placeholder {
 	color: #7b7e82;
 }
-
+#task-title {
+	flex: 2 1 0%;
+	background-color: #111827;
+	padding: 1rem;
+	border-radius: 1rem;
+	margin-right: 1rem;
+	color: #d2b4f1;
+	font-size: 1.25rem;
+}
 #new-task-submit {
 	color: whitesmoke;
 	font-size: 1.25rem;
