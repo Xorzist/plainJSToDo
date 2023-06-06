@@ -21,7 +21,7 @@
 		flex-direction: column;
 		min-height: 100vh;
 		color: #FFF;
-		background-color: #232032;
+		background-color: #403b59;
 	}
 	
 	header {
@@ -266,8 +266,8 @@
 				const listItem = document.createElement('li');
 				listItem.innerHTML = `
       <span>${task.title}: ${task.description}</span>
-      <button onclick="editTask(${task.id})">Edit</button>
-      <button onclick="deleteTask(${task.id})">Delete</button>
+      <button onclick="editTask('${task._id}')">Edit</button>
+      <button onclick="deleteTask('${task._id}')">Delete</button>
     `;
 				taskList.appendChild(listItem);
 			});

@@ -7,7 +7,7 @@ function createTask() {
 
   const task = { title, description };
 
-  fetch(`http://localhost:${port}/tasks`, {
+  fetch(`https://plainjstodoapp.onrender.com/tasks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ function createTask() {
 
 // Function to get all tasks
 function getAllTasks() {
-  fetch(`http://localhost:${port}/tasks`)
+  fetch(`https://plainjstodoapp.onrender.com/tasks`)
     .then((response) => response.json())
     .then((data) => {
       console.log('All tasks:', data);
@@ -55,7 +55,7 @@ function displayTasks(tasks) {
 
 // Function to get a specific task by ID
 function getTaskById(id) {
-  fetch(`http://localhost:${port}/tasks/${id}`)
+  fetch(`https://plainjstodoapp.onrender.com/tasks/${id}`)
     .then((response) => response.json())
     .then((data) => {
       console.log('Task by ID:', data);
@@ -69,7 +69,7 @@ function getTaskById(id) {
 function updateTaskById(id, title, description) {
   const task = { title, description };
 
-  fetch(`http://localhost:${port}/tasks/${id}`, {
+  fetch(`https://plainjstodoapp.onrender.com/tasks/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function updateTaskById(id, title, description) {
 
 // Function to delete a specific task by ID
 function deleteTaskById(id) {
-  fetch(`http://localhost:${port}/tasks/${id}`, {
+  fetch(`https://plainjstodoapp.onrender.com/tasks/${id}`, {
     method: 'DELETE',
   })
     .then((response) => {
