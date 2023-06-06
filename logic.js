@@ -3,36 +3,26 @@ window.addEventListener("load", () => {
   const title = document.querySelector("#new-task-title");
   const input = document.querySelector("#new-task-input");
   const task_list = document.querySelector("#tasks");
+ 
 
-  var data = getAllTasks()
-    .then((data) => {
-      console.log("API Response: ", data);
-
-      data.forEach((todo) => {
-       
-        task = `${todo.title} : ${todo.description}`;
-        addElements(task,task_list,input);
-        console.log(todo);
-      });
-    })
-    .catch((error) => {
-      console.error("Error retrieving tasks:", error);
-    });
+   loadAllTasks();
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const task = title.value + " : " + input.value;
-    addElements(task,task_list,input);
-
+    createTask(title.value, input.value);
+    // addElements(title.value,input.value,task_list);
     
-
-   
+    window.location.reload();
   });
+  
+ 
 });
 
-function addElements(task,task_list,input) {
+function addElements(todo, task_list) {
   const tasks = document.createElement("div");
   tasks.classList.add("task");
+  title = `${todo.title}` 
+  description = `${todo.description}`
 
   const task_content = document.createElement("div");
   task_content.classList.add("content");
@@ -59,14 +49,12 @@ function addElements(task,task_list,input) {
   complete_task.classList.add("completed");
   complete_task.innerText = "Done";
 
-  task_input.value = task;
+  task_input.value = title + " : " + description;
   task_input.setAttribute("readonly", "readonly");
 
   task_content.appendChild(task_input);
 
   task_list.appendChild(tasks);
-
-  input.value = "";
 
   task_functions.appendChild(complete_task);
   task_functions.appendChild(edit_task);
@@ -84,6 +72,8 @@ function addElements(task,task_list,input) {
       task_input.focus();
     } else {
       edit_task.innerText = "Edit";
+      console.log(" e details : ",e)
+      updateTaskById()
       task_input.setAttribute("readonly", "readonly");
     }
   });
@@ -106,4 +96,23 @@ function addElements(task,task_list,input) {
       complete_task.innerText = "Done";
     }
   });
+}
+
+function loadAllTasks() {
+  const task_list = document.querySelector("#tasks");
+  
+  getAllTasks()
+    .then((data) => {
+      console.log("API Response: ", data);
+
+      data.forEach((todo) => {
+        task = `${todo.title} : ${todo.description}`;
+        addElements(todo, task_list);
+        console.log(todo);
+      });
+      
+    })
+    .catch((error) => {
+      console.error("Error retrieving tasks:", error);
+    });
 }
