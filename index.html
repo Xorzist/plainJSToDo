@@ -107,13 +107,26 @@
 		margin-bottom: 1rem;
 	}
 	
-	#tasks .task {
+	#tasks li {
 		display: flex;
 		justify-content: space-between;
 		background-color: #111827;
 		padding: 1rem;
 		border-radius: 1rem;
 		margin-bottom: 1rem;
+		flex: 1 1 0%;
+		color:  #EEE;
+		font-size: 1.125rem;
+		transition: 0.4s;
+		
+	}
+	#tasks  span{
+		display:flex;
+		color:  #EEE;
+		font-size: 1.125rem;
+		width: 100%;
+		display: block;
+		transition: 0.4s;
 	}
 	
 	.task .content {
@@ -132,40 +145,36 @@
 		color: #7b9aac;
 	}
 	
-	.task .actions {
-		display: flex;
-		
-	}
 	
-	.task .actions button {
+	#tasks  button {
+		display: flex;
 		cursor: pointer;
 		margin: 0 0.5rem;
 		font-size: 1.125rem;
 		font-weight: 700;
 		text-transform: uppercase;
 		transition: 0.4s;
+
 	}
 	
 	
-	.task .actions button:hover {
+	#tasks  button:hover {
 		opacity: 0.8;
 	}
 	
-	.task .actions button:active {
+	#tasks button:active {
 		opacity: 0.6;
 	}
 	
-	.task .actions .edit {
+	#tasks #edit {
 		background-image: linear-gradient(to right, #2c0fee,#7c6ec9);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 	}
 	
-	.task .actions .completed {
-		color:#026602
-	}
+
 	
-	.task .actions .delete {
+	#tasks #delete {
 		color: crimson;
 	}
 </style>
@@ -174,8 +183,8 @@
 	<header>
 		<h1>Todo App</h1>
 		<form id="task-form" onsubmit="event.preventDefault(); createTask();">
-			<input type="text" id="task-title" placeholder="Title" required>
-			<input type="text" id="task-description" placeholder="Description" required>
+			<input type="text" id="task-title" placeholder="Title of Task" required>
+			<input type="text" id="task-description" placeholder="Description Of Task" required>
 			<button id="new-task-submit" type="submit">Add Task</button>
 		</form>
 	</header>
@@ -242,6 +251,9 @@
 				.catch((error) => {
 					console.error('Error creating task:', error);
 				});
+				document.getElementById('task-title').value = "";
+			 document.getElementById('task-description').value = "";
+
 		}
 
 		// Function to get all tasks
@@ -265,9 +277,9 @@
 			tasks.forEach((task) => {
 				const listItem = document.createElement('li');
 				listItem.innerHTML = `
-      <span>${task.title}: ${task.description}</span>
-      <button onclick="editTask('${task._id}')">Edit</button>
-      <button onclick="deleteTask('${task._id}')">Delete</button>
+      <span>${task.title} | ${task.description}</span>
+      <button id= "edit" onclick="editTask('${task._id}')">Edit</button>
+      <button id= "delete" onclick="deleteTask('${task._id}')">Delete</button>
     `;
 				taskList.appendChild(listItem);
 			});
